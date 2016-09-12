@@ -60,6 +60,8 @@
 
 	class Main {
 	    constructor() {
+	        this.eventLoopId = null;
+
 	        this.scene    = new THREE.Scene();
 
 	        var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
@@ -90,6 +92,10 @@
 	        document.addEventListener('keydown', function(e) {
 	            if (e.code === 'ArrowLeft') {
 	                this.players[0].turnLeft();
+
+	                setTimeout(function() {
+	                    cancelAnimationFrame(this.eventLoopId);
+	                }, 300);
 	            }
 
 	            if (e.code === 'ArrowRight') {
@@ -99,7 +105,7 @@
 	    }
 
 	    render() {
-	        requestAnimationFrame(this.render.bind(this));
+	        this.eventLoopId = requestAnimationFrame(this.render.bind(this));
 
 	        this.players[0].moveForward();
 	        this.scene.remove(this.players[0].getActiveTailPart());
@@ -153,7 +159,9 @@
 
 	        this.bike = new THREE.Mesh(geometry, material);
 
-	        this.tail = new Tail(color);
+	        this.bike.position.set(-450, 0, 0);
+
+	        this.tail = new Tail(color, -450, 0, 0);
 	    }
 
 	    getBike() {
@@ -194,12 +202,20 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Tail = __webpack_require__(4);
+	var North    = __webpack_require__(4);
+	var East     = __webpack_require__(6);
+	var South    = __webpack_require__(7);
+	var West     = __webpack_require__(8);
+	var TailPart = __webpack_require__(9);
 
 	class Tail {
-	    constructor(color) {
+	    constructor(color, x, y, z) {
 	        this.color = color;
-	        this.activeTail = new TailPart(this.color);
+	        this.x     = x;
+	        this.y     = y;
+	        this.z     = z;
+
+	        this.activeTail = new TailPart(this.color, new North(), x, y, z);
 
 	        this.tails = [this.activeTail];
 	    }
@@ -209,17 +225,23 @@
 	    }
 
 	    getActiveTailPart() {
-	        this.activeTail;
+	        return this.activeTail.getPart();
 	    }
 
 	    turnLeft() {
-	        this.activeTail = new TailPart(this.color, Math.PI / 2);
+	        var delta = this.activeTail.getDelta();
+
+	        if (delta.direction === 'x') {
+	            this.activeTail = new TailPart(this.color, this.activeTail.getLeftHeading(), delta.position + this.x, this.y, this.z);
+	        } else {
+	            this.activeTail = new TailPart(this.color, this.activeTail.getLeftHeading(), this.x, this.y, delta.position + this.z);
+	        }
 
 	        this.tails.push(this.activeTail);
 	    }
 
 	    turnRight() {
-	        this.activeTail = new TailPart(this.color, -Math.PI / 2);
+	        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.activeTail.getPositionXDelta() + this.x, this.y, this.z);
 
 	        this.tails.push(this.activeTail);
 	    }
@@ -234,10 +256,177 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Heading = __webpack_require__(5);
+	var East    = __webpack_require__(6);
+	var South   = __webpack_require__(7);
+	var West    = __webpack_require__(8);
+
+	class North extends Heading {
+	    constructor() {
+	        super('x', 1, 2);
+	    }
+
+	    getFinalDelta(size) {
+	        return {
+	            direction: 'x',
+	            position: size
+	        };
+	    }
+
+	    getLeftHeading() {
+	        return new West();
+	    }
+
+	    getRightHeading() {
+	        return new East();
+	    }
+	}
+
+	module.exports = North;
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
+	class Heading {
+	    constructor(direction, delta, extraSize, name) {
+	        this.direction = direction;
+	        this.delta     = delta;
+	        this.extraSize = extraSize;
+
+	        this.name = name;
+	    }
+
+	    getDirection() {
+	        return this.direction;
+	    }
+
+	    getDelta() {
+	        return this.delta;
+	    }
+
+	    getExtraSize() {
+	        return this.extraSize;
+	    }
+	}
+
+	module.exports = Heading;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Heading = __webpack_require__(5);
+	var North   = __webpack_require__(4);
+	var South   = __webpack_require__(7);
+	var West    = __webpack_require__(8);
+
+	class East extends Heading {
+	    constructor() {
+	        super('z', 1, 1);
+	    }
+
+	    getFinalDelta(size) {
+	        return {
+	            direction: 'z',
+	            position: -size
+	        };
+	    }
+
+	    getLeftHeading() {
+	        return new North();
+	    }
+
+	    getRightHeading() {
+	        return new South();
+	    }
+	}
+
+	module.exports = East;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Heading = __webpack_require__(5);
+	var North   = __webpack_require__(4);
+	var East    = __webpack_require__(6);
+	var West    = __webpack_require__(8);
+
+	class South extends Heading {
+	    constructor() {
+	        super('x', 1, -2);
+	    }
+
+	    getFinalDelta(size) {
+	        return {
+	            direction: 'x',
+	            position: size
+	        };
+	    }
+
+	    getLeftHeading() {
+	        return new East();
+	    }
+
+	    getRightHeading() {
+	        return new West();
+	    }
+	}
+
+	module.exports = South;
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Heading = __webpack_require__(5);
+	var North   = __webpack_require__(4);
+	var South   = __webpack_require__(7);
+	var East    = __webpack_require__(6);
+
+	class West extends Heading {
+	    constructor() {
+	        super('z', -1, 1);
+	    }
+
+	    getFinalDelta(size) {
+	        return {
+	            direction: 'z',
+	            position: -size
+	        };
+	    }
+
+	    getLeftHeading() {
+	        return new South();
+	    }
+
+	    getRightHeading() {
+	        return new North();
+	    }
+	}
+
+	module.exports = West;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var North = __webpack_require__(4);
+	var East  = __webpack_require__(6);
+	var South = __webpack_require__(7);
+	var West  = __webpack_require__(8);
+
 	class TailPart {
-	    constructor(color, rotation) {
+	    //constructor(color, rotation, x, y, z) {
+	    constructor(color, heading, x, y, z) {
 	        this.size  = 1;
 	        this.color = color;
 
@@ -246,16 +435,68 @@
 
 	        this.tail = new THREE.Mesh(geometry, material);
 
-	        if (typeof rotation !== 'undefined') {
-	            this.tail.rotation.y += rotation;
+	        this.tail.position.set(x, y, z);
+
+	        this.direction = 'x';
+	        this.delta = 1;
+	        this.extraSize = 2;
+
+	this.heading = heading;
+
+	/*
+	        this.heading = new North();
+
+	        if (typeof rotation !== 'undefined' && rotation === Math.PI / 2) {
+	            //this.tail.rotation.y += rotation;
+
+	            this.direction = 'z';
+	            this.delta = -1;
+	            this.extraSize = 1;
+
+	            this.heading = new East();
 	        }
+
+	        if (typeof rotation !== 'undefined' && rotation === -Math.PI / 2) {
+	            //this.tail.rotation.y += rotation;
+
+	            this.direction = 'z';
+	            this.delta = 1;
+	            this.extraSize = 1;
+
+	            this.heading = new West();
+	        }
+	*/
+	    }
+
+	    getPart() {
+	        return this.tail;
 	    }
 
 	    moveForward() {
-	        this.size += 2;
+	        //this.size += this.extraSize;
+	        this.size += this.heading.getExtraSize();
 
-	        this.tail.scale.x = this.size;
-	        this.tail.position.x += 1;
+	        //this.tail.scale[this.direction] = this.size;
+	        //this.tail.position[this.direction] += this.delta;
+	//console.log(this.heading);
+	        this.tail.scale[this.heading.getDirection()] = this.size;
+	        this.tail.position[this.heading.getDirection()] += this.heading.getDelta();
+	    }
+
+	    getPositionXDelta() {
+	        return this.size;
+	    }
+
+	    getDelta() {
+	        return this.heading.getFinalDelta(this.size);
+	    }
+
+	    getLeftHeading() {
+	        return this.heading.getLeftHeading();
+	    }
+
+	    getRightHeading() {
+	        return this.heading.getRightHeading();
 	    }
 	}
 

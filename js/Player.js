@@ -7,7 +7,9 @@ class Player {
 
         this.bike = new THREE.Mesh(geometry, material);
 
-        this.tail = new Tail(color);
+        this.bike.position.set(-450, 0, 0);
+
+        this.tail = new Tail(color, -450, 0, 0);
     }
 
     getBike() {

@@ -1,5 +1,7 @@
 class Main {
     constructor() {
+        this.eventLoopId = null;
+
         this.scene    = new THREE.Scene();
 
         var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
@@ -30,6 +32,10 @@ class Main {
         document.addEventListener('keydown', function(e) {
             if (e.code === 'ArrowLeft') {
                 this.players[0].turnLeft();
+
+                setTimeout(function() {
+                    cancelAnimationFrame(this.eventLoopId);
+                }, 300);
             }
 
             if (e.code === 'ArrowRight') {
@@ -39,7 +45,7 @@ class Main {
     }
 
     render() {
-        requestAnimationFrame(this.render.bind(this));
+        this.eventLoopId = requestAnimationFrame(this.render.bind(this));
 
         this.players[0].moveForward();
         this.scene.remove(this.players[0].getActiveTailPart());
