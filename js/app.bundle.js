@@ -66,7 +66,7 @@
 	        var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
 
 	        this.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-	        this.scene.add(this.camera);
+	        //this.scene.add(this.camera);
 	        this.camera.position.set(0,150,400);
 	        this.camera.lookAt(this.scene.position);
 
@@ -90,17 +90,10 @@
 	        document.addEventListener('keydown', function(e) {
 	            if (e.code === 'ArrowLeft') {
 	                this.players[0].turnLeft();
-
-
-	                var selectedObject = this.scene.getObjectByName(this.players[0].getTail().name);
-	                this.scene.remove(selectedObject);
 	            }
 
 	            if (e.code === 'ArrowRight') {
 	                this.players[0].turnRight();
-
-	                var selectedObject = this.scene.getObjectByName(this.players[0].getTail().name);
-	                this.scene.remove(selectedObject);
 	            }
 	        }.bind(this));
 	    }
@@ -109,7 +102,8 @@
 	        requestAnimationFrame(this.render.bind(this));
 
 	        this.players[0].moveForward();
-	        this.scene.add(this.players[0].getTail());
+	        this.scene.remove(this.players[0].getActiveTailPart());
+	        this.scene.add(this.players[0].getActiveTailPart());
 
 	        this.renderer.render(this.scene, this.camera);
 	    }
@@ -135,7 +129,11 @@
 	        this.players.push(player);
 
 	        this.scene.add(player.getBike());
-	        console.log(this.scene.add(player.getTail()));
+	        this.scene.add(player.getActiveTailPart());
+
+	        player.getBike().add(this.camera);
+
+	        this.camera.y = Math.PI / 2;
 	    }
 	}
 
@@ -146,7 +144,7 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Tail = __webpack_require__(3);
+	var Tail  = __webpack_require__(3);
 
 	class Player {
 	    constructor(color) {
@@ -154,6 +152,7 @@
 	        var material = new THREE.MeshBasicMaterial({ color: color });
 
 	        this.bike = new THREE.Mesh(geometry, material);
+
 	        this.tail = new Tail(color);
 	    }
 
@@ -161,8 +160,12 @@
 	        return this.bike;
 	    }
 
-	    getTail() {
-	        return this.tail.getTail();
+	    getTails() {
+	        return this.tail.getTails();
+	    }
+
+	    getActiveTailPart() {
+	        return this.tail.getActiveTailPart();
 	    }
 
 	    turnLeft() {
@@ -189,10 +192,52 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var Tail = __webpack_require__(4);
 
 	class Tail {
 	    constructor(color) {
+	        this.color = color;
+	        this.activeTail = new TailPart(this.color);
+
+	        this.tails = [this.activeTail];
+	    }
+
+	    getTails() {
+	        return this.tails;
+	    }
+
+	    getActiveTailPart() {
+	        this.activeTail;
+	    }
+
+	    turnLeft() {
+	        this.activeTail = new TailPart(this.color, Math.PI / 2);
+
+	        this.tails.push(this.activeTail);
+	    }
+
+	    turnRight() {
+	        this.activeTail = new TailPart(this.color, -Math.PI / 2);
+
+	        this.tails.push(this.activeTail);
+	    }
+
+	    moveForward() {
+	        this.activeTail.moveForward();
+	    }
+	}
+
+	module.exports = Tail;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	class TailPart {
+	    constructor(color, rotation) {
 	        this.size  = 1;
 	        this.color = color;
 
@@ -201,34 +246,20 @@
 
 	        this.tail = new THREE.Mesh(geometry, material);
 
-	        this.tail.name = 'tail';
-	    }
-
-	    getTail() {
-	        return this.tail;
-	    }
-
-	    turnLeft() {
-	        this.tail.rotation.y += Math.PI / 2;
-	    }
-
-	    turnRight() {
-	        this.tail.rotation.y -= Math.PI / 2;
+	        if (typeof rotation !== 'undefined') {
+	            this.tail.rotation.y += rotation;
+	        }
 	    }
 
 	    moveForward() {
 	        this.size += 2;
 
-	        var geometry = new THREE.BoxGeometry(this.size, 40, 2);
-	        var material = new THREE.MeshBasicMaterial({ color: this.color });
-
-	        this.tail = new THREE.Mesh(geometry, material);
-
-	        this.tail.name = 'tail';
+	        this.tail.scale.x = this.size;
+	        this.tail.position.x += 1;
 	    }
 	}
 
-	module.exports = Tail;
+	module.exports = TailPart;
 
 
 /***/ }

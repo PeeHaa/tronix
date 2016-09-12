@@ -1,4 +1,4 @@
-var Tail = require('./Tail.js');
+var Tail  = require('./Tail.js');
 
 class Player {
     constructor(color) {
@@ -6,6 +6,7 @@ class Player {
         var material = new THREE.MeshBasicMaterial({ color: color });
 
         this.bike = new THREE.Mesh(geometry, material);
+
         this.tail = new Tail(color);
     }
 
@@ -13,8 +14,12 @@ class Player {
         return this.bike;
     }
 
-    getTail() {
-        return this.tail.getTail();
+    getTails() {
+        return this.tail.getTails();
+    }
+
+    getActiveTailPart() {
+        return this.tail.getActiveTailPart();
     }
 
     turnLeft() {

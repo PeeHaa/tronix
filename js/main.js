@@ -6,7 +6,7 @@ class Main {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
 
         this.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-        this.scene.add(this.camera);
+        //this.scene.add(this.camera);
         this.camera.position.set(0,150,400);
         this.camera.lookAt(this.scene.position);
 
@@ -30,17 +30,10 @@ class Main {
         document.addEventListener('keydown', function(e) {
             if (e.code === 'ArrowLeft') {
                 this.players[0].turnLeft();
-
-
-                var selectedObject = this.scene.getObjectByName(this.players[0].getTail().name);
-                this.scene.remove(selectedObject);
             }
 
             if (e.code === 'ArrowRight') {
                 this.players[0].turnRight();
-
-                var selectedObject = this.scene.getObjectByName(this.players[0].getTail().name);
-                this.scene.remove(selectedObject);
             }
         }.bind(this));
     }
@@ -49,7 +42,8 @@ class Main {
         requestAnimationFrame(this.render.bind(this));
 
         this.players[0].moveForward();
-        this.scene.add(this.players[0].getTail());
+        this.scene.remove(this.players[0].getActiveTailPart());
+        this.scene.add(this.players[0].getActiveTailPart());
 
         this.renderer.render(this.scene, this.camera);
     }
@@ -75,7 +69,11 @@ class Main {
         this.players.push(player);
 
         this.scene.add(player.getBike());
-        console.log(this.scene.add(player.getTail()));
+        this.scene.add(player.getActiveTailPart());
+
+        player.getBike().add(this.camera);
+
+        this.camera.y = Math.PI / 2;
     }
 }
 

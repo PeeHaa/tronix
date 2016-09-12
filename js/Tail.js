@@ -1,37 +1,35 @@
+var Tail = require('./TailPart.js');
+
 class Tail {
     constructor(color) {
-        this.size  = 1;
         this.color = color;
+        this.activeTail = new TailPart(this.color);
 
-        var geometry = new THREE.BoxGeometry(this.size, 40, 2);
-        var material = new THREE.MeshBasicMaterial({ color: this.color });
-
-        this.tail = new THREE.Mesh(geometry, material);
-
-        this.tail.name = 'tail';
+        this.tails = [this.activeTail];
     }
 
-    getTail() {
-        return this.tail;
+    getTails() {
+        return this.tails;
+    }
+
+    getActiveTailPart() {
+        this.activeTail;
     }
 
     turnLeft() {
-        this.tail.rotation.y += Math.PI / 2;
+        this.activeTail = new TailPart(this.color, Math.PI / 2);
+
+        this.tails.push(this.activeTail);
     }
 
     turnRight() {
-        this.tail.rotation.y -= Math.PI / 2;
+        this.activeTail = new TailPart(this.color, -Math.PI / 2);
+
+        this.tails.push(this.activeTail);
     }
 
     moveForward() {
-        this.size += 2;
-
-        var geometry = new THREE.BoxGeometry(this.size, 40, 2);
-        var material = new THREE.MeshBasicMaterial({ color: this.color });
-
-        this.tail = new THREE.Mesh(geometry, material);
-
-        this.tail.name = 'tail';
+        this.activeTail.moveForward();
     }
 }
 
