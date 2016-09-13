@@ -30,6 +30,7 @@ class Part {
         this.size += this.heading.getExtraSize();
 
         this.tail.scale[this.heading.getDirection()] = this.size;
+
         this.tail.position[this.heading.getDirection()] += this.heading.getDelta();
     }
 

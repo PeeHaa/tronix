@@ -2,13 +2,15 @@ let Heading = require('./Heading.js');
 
 class South extends Heading {
     constructor() {
-        super('x', 1, -2);
+        console.log('Going South');
+
+        super('x', -1, 2);
     }
 
     getFinalDelta(size) {
         return {
             direction: 'x',
-            position: size
+            position: -size
         };
     }
 

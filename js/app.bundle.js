@@ -282,17 +282,30 @@
 
 	    turnLeft() {
 	        var delta = this.activeTail.getDelta();
+	        console.log({
+	            trailPart: this.activeTail,
+	            direction: delta.direction,
+	            position:delta.position
+	        });
 
 	        if (delta.direction === 'x') {
-	            this.activeTail = new TailPart(this.color, this.activeTail.getLeftHeading(), delta.position + this.x, this.y, this.z);
+	            this.x += delta.position;
 	        } else {
-	            this.activeTail = new TailPart(this.color, this.activeTail.getLeftHeading(), this.x, this.y, delta.position + this.z);
+	            this.z += delta.position;
 	        }
+
+	        this.activeTail = new TailPart(this.color, this.activeTail.getLeftHeading(), this.x, this.y, this.z);
 
 	        this.tails.push(this.activeTail);
 	    }
 
 	    turnRight() {
+	        var delta = this.activeTail.getDelta();
+	        console.log({
+	            direction: delta.direction,
+	            position:delta.position
+	        });
+
 	        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.activeTail.getPositionXDelta() + this.x, this.y, this.z);
 
 	        this.tails.push(this.activeTail);
@@ -314,6 +327,8 @@
 
 	class North extends Heading {
 	    constructor() {
+	        console.log('Going North');
+
 	        super('x', 1, 2);
 	    }
 
@@ -375,13 +390,15 @@
 
 	class West extends Heading {
 	    constructor() {
+	        console.log('Going West');
+
 	        super('z', -1, 1);
 	    }
 
 	    getFinalDelta(size) {
 	        return {
 	            direction: 'z',
-	            position: -size
+	            position: -size  * 2
 	        };
 	    }
 
@@ -409,13 +426,15 @@
 
 	class South extends Heading {
 	    constructor() {
-	        super('x', 1, -2);
+	        console.log('Going South');
+
+	        super('x', -1, 2);
 	    }
 
 	    getFinalDelta(size) {
 	        return {
 	            direction: 'x',
-	            position: size
+	            position: -size
 	        };
 	    }
 
@@ -443,13 +462,15 @@
 
 	class East extends Heading {
 	    constructor() {
+	        console.log('Going East');
+
 	        super('z', 1, 1);
 	    }
 
 	    getFinalDelta(size) {
 	        return {
 	            direction: 'z',
-	            position: -size
+	            position: size * 2
 	        };
 	    }
 
@@ -505,6 +526,7 @@
 	        this.size += this.heading.getExtraSize();
 
 	        this.tail.scale[this.heading.getDirection()] = this.size;
+
 	        this.tail.position[this.heading.getDirection()] += this.heading.getDelta();
 	    }
 
