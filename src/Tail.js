@@ -6,7 +6,7 @@ var TailPart = require('./TailPart.js');
 
 class Tail {
     constructor(color, x, y, z) {
-        this.color = color;
+        this.color = color - 100;
         this.x     = x;
         this.y     = y;
         this.z     = z;

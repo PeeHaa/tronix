@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Main   = __webpack_require__(1);
-	var Player = __webpack_require__(2);
+	var Player = __webpack_require__(4);
 
 	var main = new Main();
 
@@ -56,32 +56,29 @@
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	let SquaresFloor = __webpack_require__(2);
 
 	class Main {
 	    constructor() {
-	        this.eventLoopId = null;
+	        this.scene = new THREE.Scene();
 
-	        this.scene    = new THREE.Scene();
+	        this.scene.add(new SquaresFloor().getMesh());
 
 	        var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
 	        var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
 
 	        this.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-	        //this.scene.add(this.camera);
+
 	        this.camera.position.set(0,150,400);
 	        this.camera.lookAt(this.scene.position);
 
-	        //this.camera   = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 	        this.renderer = new THREE.WebGLRenderer();
 
 	        this.renderer.setSize(window.innerWidth, window.innerHeight);
 
 	        document.body.appendChild(this.renderer.domElement);
-
-	        //this.camera.position.z = 5;
-
-	        this.addFloor();
 
 	        this.players = [];
 	    }
@@ -92,10 +89,6 @@
 	        document.addEventListener('keydown', function(e) {
 	            if (e.code === 'ArrowLeft') {
 	                this.players[0].turnLeft();
-
-	                setTimeout(function() {
-	                    cancelAnimationFrame(this.eventLoopId);
-	                }, 300);
 	            }
 
 	            if (e.code === 'ArrowRight') {
@@ -105,30 +98,13 @@
 	    }
 
 	    render() {
-	        this.eventLoopId = requestAnimationFrame(this.render.bind(this));
+	        requestAnimationFrame(this.render.bind(this));
 
 	        this.players[0].moveForward();
 	        this.scene.remove(this.players[0].getActiveTailPart());
 	        this.scene.add(this.players[0].getActiveTailPart());
 
 	        this.renderer.render(this.scene, this.camera);
-	    }
-
-	    addFloor() {
-	        var floorTexture   = new THREE.TextureLoader().load('/images/floor.jpg');
-	        floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-
-	        floorTexture.repeat.set(10, 10);
-
-	        var floorMaterial = new THREE.MeshBasicMaterial({ map: floorTexture, side: THREE.DoubleSide });
-	        var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-
-	        var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-
-	        floor.position.y = -0.5;
-	        floor.rotation.x = Math.PI / 2;
-
-	        this.scene.add(floor);
 	    }
 
 	    addPlayer(player) {
@@ -150,7 +126,52 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Tail  = __webpack_require__(3);
+	let Floor = __webpack_require__(3);
+
+	class Squares extends Floor {
+	    constructor() {
+	        let floorTexture = new THREE.TextureLoader().load('/images/floor.jpg');
+
+	        floorTexture.wrapS = THREE.RepeatWrapping;
+	        floorTexture.wrapT = THREE.RepeatWrapping;
+
+	        floorTexture.repeat.set(10, 10);
+
+	        super(new THREE.MeshBasicMaterial({
+	            map: floorTexture,
+	            side: THREE.DoubleSide
+	        }));
+	    }
+	}
+
+	module.exports = Squares;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	class Floor {
+	    constructor(floorMaterial) {
+	        this.floor = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000, 10, 10), floorMaterial);
+
+	        this.floor.position.y = -0.5;
+	        this.floor.rotation.x = Math.PI / 2;
+	    }
+
+	    getMesh() {
+	        return this.floor;
+	    }
+	}
+
+	module.exports = Floor;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Tail  = __webpack_require__(5);
 
 	class Player {
 	    constructor(color) {
@@ -199,18 +220,18 @@
 
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var North    = __webpack_require__(4);
-	var East     = __webpack_require__(6);
-	var South    = __webpack_require__(7);
-	var West     = __webpack_require__(8);
-	var TailPart = __webpack_require__(9);
+	var North    = __webpack_require__(6);
+	var East     = __webpack_require__(8);
+	var South    = __webpack_require__(9);
+	var West     = __webpack_require__(10);
+	var TailPart = __webpack_require__(11);
 
 	class Tail {
 	    constructor(color, x, y, z) {
-	        this.color = color;
+	        this.color = color - 100;
 	        this.x     = x;
 	        this.y     = y;
 	        this.z     = z;
@@ -255,13 +276,13 @@
 
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Heading = __webpack_require__(5);
-	var East    = __webpack_require__(6);
-	var South   = __webpack_require__(7);
-	var West    = __webpack_require__(8);
+	var Heading = __webpack_require__(7);
+	var East    = __webpack_require__(8);
+	var South   = __webpack_require__(9);
+	var West    = __webpack_require__(10);
 
 	class North extends Heading {
 	    constructor() {
@@ -288,7 +309,7 @@
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 	class Heading {
@@ -317,13 +338,13 @@
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Heading = __webpack_require__(5);
-	var North   = __webpack_require__(4);
-	var South   = __webpack_require__(7);
-	var West    = __webpack_require__(8);
+	var Heading = __webpack_require__(7);
+	var North   = __webpack_require__(6);
+	var South   = __webpack_require__(9);
+	var West    = __webpack_require__(10);
 
 	class East extends Heading {
 	    constructor() {
@@ -350,13 +371,13 @@
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Heading = __webpack_require__(5);
-	var North   = __webpack_require__(4);
-	var East    = __webpack_require__(6);
-	var West    = __webpack_require__(8);
+	var Heading = __webpack_require__(7);
+	var North   = __webpack_require__(6);
+	var East    = __webpack_require__(8);
+	var West    = __webpack_require__(10);
 
 	class South extends Heading {
 	    constructor() {
@@ -383,13 +404,13 @@
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Heading = __webpack_require__(5);
-	var North   = __webpack_require__(4);
-	var South   = __webpack_require__(7);
-	var East    = __webpack_require__(6);
+	var Heading = __webpack_require__(7);
+	var North   = __webpack_require__(6);
+	var South   = __webpack_require__(9);
+	var East    = __webpack_require__(8);
 
 	class West extends Heading {
 	    constructor() {
@@ -416,13 +437,13 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var North = __webpack_require__(4);
-	var East  = __webpack_require__(6);
-	var South = __webpack_require__(7);
-	var West  = __webpack_require__(8);
+	var North = __webpack_require__(6);
+	var East  = __webpack_require__(8);
+	var South = __webpack_require__(9);
+	var West  = __webpack_require__(10);
 
 	class TailPart {
 	    //constructor(color, rotation, x, y, z) {
