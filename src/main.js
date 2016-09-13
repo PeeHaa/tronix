@@ -7,9 +7,6 @@ class Main {
 
         this.scene.add(new SquaresFloor().getMesh());
 
-        var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-        var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-
         this.camera = new SideCamera(this.scene.position).getCamera();
 
         this.renderer = new THREE.WebGLRenderer();
