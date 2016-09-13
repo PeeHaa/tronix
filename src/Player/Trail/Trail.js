@@ -11,21 +11,21 @@ class Trail {
         this.y     = y;
         this.z     = z;
 
-        this.activeTail = new TailPart(this.color, new North(), x, y, z);
+        this.activeTrail = new TailPart(this.color, new North(), x, y, z);
 
-        this.tails = [this.activeTail];
+        this.trails = [this.activeTrail];
     }
 
     getTails() {
-        return this.tails;
+        return this.trails;
     }
 
     getActiveTailPart() {
-        return this.activeTail.getPart();
+        return this.activeTrail.getPart();
     }
 
     turn(heading) {
-        const delta = this.activeTail.getDelta();
+        const delta = this.activeTrail.getDelta();
 
         if (delta.direction === 'x') {
             this.x += delta.position;
@@ -33,21 +33,21 @@ class Trail {
             this.z += delta.position;
         }
 
-        this.activeTail = new TailPart(this.color, heading, this.x, this.y, this.z);
+        this.activeTrail = new TailPart(this.color, heading, this.x, this.y, this.z);
 
-        this.tails.push(this.activeTail);
+        this.trails.push(this.activeTrail);
     }
 
     turnLeft() {
-        this.turn(this.activeTail.getLeftHeading());
+        this.turn(this.activeTrail.getLeftHeading());
     }
 
     turnRight() {
-        this.turn(this.activeTail.getRightHeading());
+        this.turn(this.activeTrail.getRightHeading());
     }
 
     moveForward() {
-        this.activeTail.moveForward();
+        this.activeTrail.moveForward();
     }
 }
 

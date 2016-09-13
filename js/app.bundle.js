@@ -202,7 +202,7 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Tail  = __webpack_require__(7);
+	const Trail = __webpack_require__(7);
 
 	class Player {
 	    constructor(color) {
@@ -213,7 +213,7 @@
 
 	        this.bike.position.set(-450, 0, 0);
 
-	        this.tail = new Tail(color, -450, 0, 0);
+	        this.trail = new Trail(color, -450, 0, 0);
 	    }
 
 	    getBike() {
@@ -221,29 +221,29 @@
 	    }
 
 	    getTails() {
-	        return this.tail.getTails();
+	        return this.trail.getTails();
 	    }
 
 	    getActiveTailPart() {
-	        return this.tail.getActiveTailPart();
+	        return this.trail.getActiveTailPart();
 	    }
 
 	    turnLeft() {
 	        this.bike.rotation.y += Math.PI / 2;
 
-	        this.tail.turnLeft();
+	        this.trail.turnLeft();
 	    }
 
 	    turnRight() {
 	        this.bike.rotation.y -= Math.PI / 2;
 
-	        this.tail.turnRight();
+	        this.trail.turnRight();
 	    }
 
 	    moveForward() {
 	        this.bike.translateX(2);
 
-	        this.tail.moveForward();
+	        this.trail.moveForward();
 	    }
 	}
 
@@ -267,21 +267,21 @@
 	        this.y     = y;
 	        this.z     = z;
 
-	        this.activeTail = new TailPart(this.color, new North(), x, y, z);
+	        this.activeTrail = new TailPart(this.color, new North(), x, y, z);
 
-	        this.tails = [this.activeTail];
+	        this.trails = [this.activeTrail];
 	    }
 
 	    getTails() {
-	        return this.tails;
+	        return this.trails;
 	    }
 
 	    getActiveTailPart() {
-	        return this.activeTail.getPart();
+	        return this.activeTrail.getPart();
 	    }
 
 	    turn(heading) {
-	        const delta = this.activeTail.getDelta();
+	        const delta = this.activeTrail.getDelta();
 
 	        if (delta.direction === 'x') {
 	            this.x += delta.position;
@@ -289,21 +289,21 @@
 	            this.z += delta.position;
 	        }
 
-	        this.activeTail = new TailPart(this.color, heading, this.x, this.y, this.z);
+	        this.activeTrail = new TailPart(this.color, heading, this.x, this.y, this.z);
 
-	        this.tails.push(this.activeTail);
+	        this.trails.push(this.activeTrail);
 	    }
 
 	    turnLeft() {
-	        this.turn(this.activeTail.getLeftHeading());
+	        this.turn(this.activeTrail.getLeftHeading());
 	    }
 
 	    turnRight() {
-	        this.turn(this.activeTail.getRightHeading());
+	        this.turn(this.activeTrail.getRightHeading());
 	    }
 
 	    moveForward() {
-	        this.activeTail.moveForward();
+	        this.activeTrail.moveForward();
 	    }
 	}
 

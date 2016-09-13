@@ -1,4 +1,4 @@
-var Tail  = require('./Trail/Trail.js');
+const Trail = require('./Trail/Trail.js');
 
 class Player {
     constructor(color) {
@@ -9,7 +9,7 @@ class Player {
 
         this.bike.position.set(-450, 0, 0);
 
-        this.tail = new Tail(color, -450, 0, 0);
+        this.trail = new Trail(color, -450, 0, 0);
     }
 
     getBike() {
@@ -17,29 +17,29 @@ class Player {
     }
 
     getTails() {
-        return this.tail.getTails();
+        return this.trail.getTails();
     }
 
     getActiveTailPart() {
-        return this.tail.getActiveTailPart();
+        return this.trail.getActiveTailPart();
     }
 
     turnLeft() {
         this.bike.rotation.y += Math.PI / 2;
 
-        this.tail.turnLeft();
+        this.trail.turnLeft();
     }
 
     turnRight() {
         this.bike.rotation.y -= Math.PI / 2;
 
-        this.tail.turnRight();
+        this.trail.turnRight();
     }
 
     moveForward() {
         this.bike.translateX(2);
 
-        this.tail.moveForward();
+        this.trail.moveForward();
     }
 }
 
