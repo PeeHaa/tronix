@@ -1,8 +1,8 @@
-var North    = require('./../../Heading/North.js');
-var East     = require('./../../Heading/East.js');
-var South    = require('./../../Heading/South.js');
-var West     = require('./../../Heading/West.js');
-var TailPart = require('./Part.js');
+const North    = require('./../../Heading/North.js');
+const East     = require('./../../Heading/East.js');
+const South    = require('./../../Heading/South.js');
+const West     = require('./../../Heading/West.js');
+const TailPart = require('./Part.js');
 
 class Trail {
     constructor(color, x, y, z) {
@@ -25,7 +25,7 @@ class Trail {
     }
 
     turn(heading) {
-        var delta = this.activeTail.getDelta();
+        const delta = this.activeTail.getDelta();
 
         if (delta.direction === 'x') {
             this.x += delta.position;

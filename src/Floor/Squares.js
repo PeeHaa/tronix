@@ -1,8 +1,8 @@
-let Floor = require('./Floor.js');
+const Floor = require('./Floor.js');
 
 class Squares extends Floor {
     constructor() {
-        let floorTexture = new THREE.TextureLoader().load('/images/floor.jpg');
+        const floorTexture = new THREE.TextureLoader().load('/images/floor.jpg');
 
         floorTexture.wrapS = THREE.RepeatWrapping;
         floorTexture.wrapT = THREE.RepeatWrapping;

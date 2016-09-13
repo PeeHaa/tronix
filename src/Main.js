@@ -1,5 +1,5 @@
-let SquaresFloor = require('./Floor/Squares.js');
-let SideCamera   = require('./Camera/Side.js');
+const SquaresFloor = require('./Floor/Squares.js');
+const SideCamera   = require('./Camera/Side.js');
 
 class Main {
     constructor() {

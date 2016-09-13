@@ -1,15 +1,15 @@
-var North = require('./../../Heading/North.js');
-var East  = require('./../../Heading/East.js');
-var South = require('./../../Heading/South.js');
-var West  = require('./../../Heading/West.js');
+const North = require('./../../Heading/North.js');
+const East  = require('./../../Heading/East.js');
+const South = require('./../../Heading/South.js');
+const West  = require('./../../Heading/West.js');
 
 class Part {
     constructor(color, heading, x, y, z) {
         this.size  = 1;
         this.color = color;
 
-        var geometry = new THREE.BoxGeometry(this.size, 40, 2);
-        var material = new THREE.MeshBasicMaterial({ color: this.color });
+        const geometry = new THREE.BoxGeometry(this.size, 40, 2);
+        const material = new THREE.MeshBasicMaterial({ color: this.color });
 
         this.tail = new THREE.Mesh(geometry, material);
 
