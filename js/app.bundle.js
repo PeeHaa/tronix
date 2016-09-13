@@ -280,7 +280,7 @@
 	        return this.activeTail.getPart();
 	    }
 
-	    turnLeft() {
+	    turn(heading) {
 	        var delta = this.activeTail.getDelta();
 
 	        if (delta.direction === 'x') {
@@ -289,23 +289,17 @@
 	            this.z += delta.position;
 	        }
 
-	        this.activeTail = new TailPart(this.color, this.activeTail.getLeftHeading(), this.x, this.y, this.z);
+	        this.activeTail = new TailPart(this.color, heading, this.x, this.y, this.z);
 
 	        this.tails.push(this.activeTail);
 	    }
 
+	    turnLeft() {
+	        this.turn(this.activeTail.getLeftHeading());
+	    }
+
 	    turnRight() {
-	        var delta = this.activeTail.getDelta();
-
-	        if (delta.direction === 'x') {
-	            this.x += delta.position;
-	        } else {
-	            this.z += delta.position;
-	        }
-
-	        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.x, this.y, this.z);
-
-	        this.tails.push(this.activeTail);
+	        this.turn(this.activeTail.getRightHeading());
 	    }
 
 	    moveForward() {
