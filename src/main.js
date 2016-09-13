@@ -11,7 +11,7 @@ class Main {
 
         this.camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 
-        this.camera.position.set(0,150,400);
+        this.camera.position.set(0, 150, 400);
         this.camera.lookAt(this.scene.position);
 
         this.renderer = new THREE.WebGLRenderer();
