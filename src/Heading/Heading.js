@@ -3,8 +3,6 @@ class Heading {
         this.direction = direction;
         this.delta     = delta;
         this.extraSize = extraSize;
-
-        this.name = name;
     }
 
     getDirection() {

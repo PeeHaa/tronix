@@ -312,7 +312,6 @@
 
 	var Heading = __webpack_require__(9);
 	var East    = __webpack_require__(10);
-	var South   = __webpack_require__(11);
 	var West    = __webpack_require__(12);
 
 	class North extends Heading {
@@ -348,8 +347,6 @@
 	        this.direction = direction;
 	        this.delta     = delta;
 	        this.extraSize = extraSize;
-
-	        this.name = name;
 	    }
 
 	    getDirection() {
@@ -375,7 +372,6 @@
 	var Heading = __webpack_require__(9);
 	var North   = __webpack_require__(8);
 	var South   = __webpack_require__(11);
-	var West    = __webpack_require__(12);
 
 	class East extends Heading {
 	    constructor() {
@@ -406,7 +402,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Heading = __webpack_require__(9);
-	var North   = __webpack_require__(8);
 	var East    = __webpack_require__(10);
 	var West    = __webpack_require__(12);
 
@@ -441,7 +436,6 @@
 	var Heading = __webpack_require__(9);
 	var North   = __webpack_require__(8);
 	var South   = __webpack_require__(11);
-	var East    = __webpack_require__(10);
 
 	class West extends Heading {
 	    constructor() {

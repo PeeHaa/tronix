@@ -1,7 +1,7 @@
-var North    = require('./North.js');
-var East     = require('./East.js');
-var South    = require('./South.js');
-var West     = require('./West.js');
+var North    = require('./Heading/North.js');
+var East     = require('./Heading/East.js');
+var South    = require('./Heading/South.js');
+var West     = require('./Heading/West.js');
 var TailPart = require('./TailPart.js');
 
 class Tail {

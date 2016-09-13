@@ -1,11 +1,10 @@
 var Heading = require('./Heading.js');
 var North   = require('./North.js');
 var South   = require('./South.js');
-var West    = require('./West.js');
 
-class East extends Heading {
+class West extends Heading {
     constructor() {
-        super('z', 1, 1);
+        super('z', -1, 1);
     }
 
     getFinalDelta(size) {
@@ -16,12 +15,12 @@ class East extends Heading {
     }
 
     getLeftHeading() {
-        return new North();
+        return new South();
     }
 
     getRightHeading() {
-        return new South();
+        return new North();
     }
 }
 
-module.exports = East;
+module.exports = West;

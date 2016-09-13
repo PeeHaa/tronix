@@ -1,5 +1,4 @@
 var Heading = require('./Heading.js');
-var North   = require('./North.js');
 var East    = require('./East.js');
 var West    = require('./West.js');
 

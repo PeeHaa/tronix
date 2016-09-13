@@ -1,6 +1,5 @@
 var Heading = require('./Heading.js');
 var East    = require('./East.js');
-var South   = require('./South.js');
 var West    = require('./West.js');
 
 class North extends Heading {
