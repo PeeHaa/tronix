@@ -1,4 +1,4 @@
-var Main   = require('./main.js');
+var Main   = require('./Main.js');
 var Player = require('./Player/Player.js');
 
 var main = new Main();
