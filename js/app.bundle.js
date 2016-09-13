@@ -260,7 +260,7 @@
 	var West     = __webpack_require__(10);
 	var TailPart = __webpack_require__(13);
 
-	class Tail {
+	class Trail {
 	    constructor(color, x, y, z) {
 	        this.color = color - 100;
 	        this.x     = x;
@@ -303,7 +303,7 @@
 	    }
 	}
 
-	module.exports = Tail;
+	module.exports = Trail;
 
 
 /***/ },
@@ -478,8 +478,7 @@
 	var South = __webpack_require__(11);
 	var West  = __webpack_require__(10);
 
-	class TailPart {
-	    //constructor(color, rotation, x, y, z) {
+	class Part {
 	    constructor(color, heading, x, y, z) {
 	        this.size  = 1;
 	        this.color = color;
@@ -495,31 +494,7 @@
 	        this.delta = 1;
 	        this.extraSize = 2;
 
-	this.heading = heading;
-
-	/*
-	        this.heading = new North();
-
-	        if (typeof rotation !== 'undefined' && rotation === Math.PI / 2) {
-	            //this.tail.rotation.y += rotation;
-
-	            this.direction = 'z';
-	            this.delta = -1;
-	            this.extraSize = 1;
-
-	            this.heading = new East();
-	        }
-
-	        if (typeof rotation !== 'undefined' && rotation === -Math.PI / 2) {
-	            //this.tail.rotation.y += rotation;
-
-	            this.direction = 'z';
-	            this.delta = 1;
-	            this.extraSize = 1;
-
-	            this.heading = new West();
-	        }
-	*/
+	        this.heading = heading;
 	    }
 
 	    getPart() {
@@ -527,12 +502,8 @@
 	    }
 
 	    moveForward() {
-	        //this.size += this.extraSize;
 	        this.size += this.heading.getExtraSize();
 
-	        //this.tail.scale[this.direction] = this.size;
-	        //this.tail.position[this.direction] += this.delta;
-	//console.log(this.heading);
 	        this.tail.scale[this.heading.getDirection()] = this.size;
 	        this.tail.position[this.heading.getDirection()] += this.heading.getDelta();
 	    }
@@ -554,7 +525,7 @@
 	    }
 	}
 
-	module.exports = TailPart;
+	module.exports = Part;
 
 
 /***/ }

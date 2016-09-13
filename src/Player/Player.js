@@ -1,4 +1,4 @@
-var Tail  = require('./Tail.js');
+var Tail  = require('./Trail/Trail.js');
 
 class Player {
     constructor(color) {

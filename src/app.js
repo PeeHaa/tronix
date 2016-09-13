@@ -1,5 +1,5 @@
 var Main   = require('./main.js');
-var Player = require('./Player.js');
+var Player = require('./Player/Player.js');
 
 var main = new Main();
 
