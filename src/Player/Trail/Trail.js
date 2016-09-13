@@ -26,11 +26,6 @@ class Trail {
 
     turnLeft() {
         var delta = this.activeTail.getDelta();
-        console.log({
-            trailPart: this.activeTail,
-            direction: delta.direction,
-            position:delta.position
-        });
 
         if (delta.direction === 'x') {
             this.x += delta.position;
@@ -45,12 +40,14 @@ class Trail {
 
     turnRight() {
         var delta = this.activeTail.getDelta();
-        console.log({
-            direction: delta.direction,
-            position:delta.position
-        });
 
-        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.activeTail.getPositionXDelta() + this.x, this.y, this.z);
+        if (delta.direction === 'x') {
+            this.x += delta.position;
+        } else {
+            this.z += delta.position;
+        }
+
+        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.x, this.y, this.z);
 
         this.tails.push(this.activeTail);
     }

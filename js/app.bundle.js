@@ -282,11 +282,6 @@
 
 	    turnLeft() {
 	        var delta = this.activeTail.getDelta();
-	        console.log({
-	            trailPart: this.activeTail,
-	            direction: delta.direction,
-	            position:delta.position
-	        });
 
 	        if (delta.direction === 'x') {
 	            this.x += delta.position;
@@ -301,12 +296,14 @@
 
 	    turnRight() {
 	        var delta = this.activeTail.getDelta();
-	        console.log({
-	            direction: delta.direction,
-	            position:delta.position
-	        });
 
-	        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.activeTail.getPositionXDelta() + this.x, this.y, this.z);
+	        if (delta.direction === 'x') {
+	            this.x += delta.position;
+	        } else {
+	            this.z += delta.position;
+	        }
+
+	        this.activeTail = new TailPart(this.color, this.activeTail.getRightHeading(), this.x, this.y, this.z);
 
 	        this.tails.push(this.activeTail);
 	    }
@@ -327,8 +324,6 @@
 
 	class North extends Heading {
 	    constructor() {
-	        console.log('Going North');
-
 	        super('x', 1, 2);
 	    }
 
@@ -390,8 +385,6 @@
 
 	class West extends Heading {
 	    constructor() {
-	        console.log('Going West');
-
 	        super('z', -1, 1);
 	    }
 
@@ -426,8 +419,6 @@
 
 	class South extends Heading {
 	    constructor() {
-	        console.log('Going South');
-
 	        super('x', -1, 2);
 	    }
 
@@ -462,8 +453,6 @@
 
 	class East extends Heading {
 	    constructor() {
-	        console.log('Going East');
-
 	        super('z', 1, 1);
 	    }
 

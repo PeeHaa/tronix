@@ -2,8 +2,6 @@ let Heading = require('./Heading.js');
 
 class South extends Heading {
     constructor() {
-        console.log('Going South');
-
         super('x', -1, 2);
     }
 
