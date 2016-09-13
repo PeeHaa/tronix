@@ -81,7 +81,7 @@
 	    run() {
 	        this.render();
 
-	        document.addEventListener('keydown', function(e) {
+	        document.addEventListener('keydown', (e) => {
 	            if (e.code === 'ArrowLeft') {
 	                this.players[0].turnLeft();
 	            }
@@ -89,7 +89,7 @@
 	            if (e.code === 'ArrowRight') {
 	                this.players[0].turnRight();
 	            }
-	        }.bind(this));
+	        });
 	    }
 
 	    render() {
