@@ -1,6 +1,4 @@
-var Heading = require('./Heading.js');
-var North   = require('./North.js');
-var South   = require('./South.js');
+let Heading = require('./Heading.js');
 
 class East extends Heading {
     constructor() {
@@ -15,10 +13,14 @@ class East extends Heading {
     }
 
     getLeftHeading() {
+        let North = require('./North.js');
+
         return new North();
     }
 
     getRightHeading() {
+        let South = require('./South.js');
+
         return new South();
     }
 }

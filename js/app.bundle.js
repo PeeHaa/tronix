@@ -255,9 +255,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var North    = __webpack_require__(8);
-	var East     = __webpack_require__(10);
+	var East     = __webpack_require__(12);
 	var South    = __webpack_require__(11);
-	var West     = __webpack_require__(12);
+	var West     = __webpack_require__(10);
 	var TailPart = __webpack_require__(13);
 
 	class Tail {
@@ -310,9 +310,7 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Heading = __webpack_require__(9);
-	var East    = __webpack_require__(10);
-	var West    = __webpack_require__(12);
+	let Heading = __webpack_require__(9);
 
 	class North extends Heading {
 	    constructor() {
@@ -327,10 +325,14 @@
 	    }
 
 	    getLeftHeading() {
+	        let West  = __webpack_require__(10);
+
 	        return new West();
 	    }
 
 	    getRightHeading() {
+	        let East = __webpack_require__(12);
+
 	        return new East();
 	    }
 	}
@@ -369,73 +371,7 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Heading = __webpack_require__(9);
-	var North   = __webpack_require__(8);
-	var South   = __webpack_require__(11);
-
-	class East extends Heading {
-	    constructor() {
-	        super('z', 1, 1);
-	    }
-
-	    getFinalDelta(size) {
-	        return {
-	            direction: 'z',
-	            position: -size
-	        };
-	    }
-
-	    getLeftHeading() {
-	        return new North();
-	    }
-
-	    getRightHeading() {
-	        return new South();
-	    }
-	}
-
-	module.exports = East;
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Heading = __webpack_require__(9);
-	var East    = __webpack_require__(10);
-	var West    = __webpack_require__(12);
-
-	class South extends Heading {
-	    constructor() {
-	        super('x', 1, -2);
-	    }
-
-	    getFinalDelta(size) {
-	        return {
-	            direction: 'x',
-	            position: size
-	        };
-	    }
-
-	    getLeftHeading() {
-	        return new East();
-	    }
-
-	    getRightHeading() {
-	        return new West();
-	    }
-	}
-
-	module.exports = South;
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Heading = __webpack_require__(9);
-	var North   = __webpack_require__(8);
-	var South   = __webpack_require__(11);
+	let Heading = __webpack_require__(9);
 
 	class West extends Heading {
 	    constructor() {
@@ -450,10 +386,14 @@
 	    }
 
 	    getLeftHeading() {
+	        let South = __webpack_require__(11);
+
 	        return new South();
 	    }
 
 	    getRightHeading() {
+	        let North = __webpack_require__(8);
+
 	        return new North();
 	    }
 	}
@@ -462,13 +402,81 @@
 
 
 /***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	let Heading = __webpack_require__(9);
+
+	class South extends Heading {
+	    constructor() {
+	        super('x', 1, -2);
+	    }
+
+	    getFinalDelta(size) {
+	        return {
+	            direction: 'x',
+	            position: size
+	        };
+	    }
+
+	    getLeftHeading() {
+	        let East = __webpack_require__(12);
+
+	        return new East();
+	    }
+
+	    getRightHeading() {
+	        let West = __webpack_require__(10);
+
+	        return new West();
+	    }
+	}
+
+	module.exports = South;
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	let Heading = __webpack_require__(9);
+
+	class East extends Heading {
+	    constructor() {
+	        super('z', 1, 1);
+	    }
+
+	    getFinalDelta(size) {
+	        return {
+	            direction: 'z',
+	            position: -size
+	        };
+	    }
+
+	    getLeftHeading() {
+	        let North = __webpack_require__(8);
+
+	        return new North();
+	    }
+
+	    getRightHeading() {
+	        let South = __webpack_require__(11);
+
+	        return new South();
+	    }
+	}
+
+	module.exports = East;
+
+
+/***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var North = __webpack_require__(8);
-	var East  = __webpack_require__(10);
+	var East  = __webpack_require__(12);
 	var South = __webpack_require__(11);
-	var West  = __webpack_require__(12);
+	var West  = __webpack_require__(10);
 
 	class TailPart {
 	    //constructor(color, rotation, x, y, z) {
