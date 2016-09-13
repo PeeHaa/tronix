@@ -54,8 +54,6 @@ class Main {
         this.scene.add(player.getActiveTailPart());
 
         player.getBike().add(this.camera);
-
-        this.camera.y = Math.PI / 2;
     }
 }
 
