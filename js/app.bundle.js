@@ -259,12 +259,12 @@
 
 	class Player {
 	    constructor(color) {
-	        var geometry = new THREE.BoxGeometry(50, 50, 20);
+	        var geometry = new THREE.BoxGeometry(50, 24, 20);
 	        var material = new THREE.MeshBasicMaterial({ color: color });
 
 	        this.bike = new THREE.Mesh(geometry, material);
 
-	        this.bike.position.set(-450, 0, 0);
+	        this.bike.position.set(-450, 12, 0);
 
 	        this.trail = new Trail(color, -450, 0, 0);
 	    }
@@ -545,16 +545,15 @@
 	        this.size  = 1;
 	        this.color = color;
 
-	        const geometry = new THREE.BoxGeometry(this.size, 40, 2);
+	        const geometry = new THREE.BoxGeometry(this.size, 20, 2);
 	        const material = new THREE.MeshBasicMaterial({ color: this.color });
 
 	        this.tail = new THREE.Mesh(geometry, material);
 
-	        //var outlineMaterial1 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
 	        this.outline = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
 
-	        this.tail.position.set(x, y, z);
-	        this.outline.position.set(x, y, z);
+	        this.tail.position.set(x, 10, z);
+	        this.outline.position.set(x, 10, z);
 
 	        this.direction = 'x';
 	        this.delta = 1;

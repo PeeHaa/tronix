@@ -8,16 +8,15 @@ class Part {
         this.size  = 1;
         this.color = color;
 
-        const geometry = new THREE.BoxGeometry(this.size, 40, 2);
+        const geometry = new THREE.BoxGeometry(this.size, 20, 2);
         const material = new THREE.MeshBasicMaterial({ color: this.color });
 
         this.tail = new THREE.Mesh(geometry, material);
 
-        //var outlineMaterial1 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
         this.outline = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
 
-        this.tail.position.set(x, y, z);
-        this.outline.position.set(x, y, z);
+        this.tail.position.set(x, 10, z);
+        this.outline.position.set(x, 10, z);
 
         this.direction = 'x';
         this.delta = 1;
