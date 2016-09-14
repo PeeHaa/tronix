@@ -79,9 +79,9 @@
 	        this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
 	        this.cameras = [
-	            new ThirdPersonCamera(this.scene.position).getCamera(),
-	            new SideCamera(this.scene.position).getCamera(),
-	            new FirstPersonCamera(this.scene.position).getCamera()
+	            new ThirdPersonCamera(this.scene.position),
+	            new SideCamera(this.scene.position),
+	            new FirstPersonCamera(this.scene.position)
 	        ];
 
 	        this.activeCamera = 0;
@@ -107,12 +107,22 @@
 	                this.players[0].turnRight();
 	            }
 
+	            if (e.code === 'ArrowDown') {
+	                this.cameras[this.activeCamera].lookBack();
+	            }
+
 	            if (e.code === 'KeyC') {
 	                if (this.activeCamera === this.cameras.length - 1) {
 	                    this.activeCamera = 0;
 	                } else {
 	                    this.activeCamera++;
 	                }
+	            }
+	        });
+
+	        document.addEventListener('keyup', (e) => {
+	            if (e.code === 'ArrowDown') {
+	                this.cameras[this.activeCamera].lookForward();
 	            }
 	        });
 	    }
@@ -126,7 +136,7 @@
 	        this.scene.add(this.players[0].getActiveTailPart());
 	        this.scene.add(this.players[0].getActiveTailPartOutline());
 
-	        this.renderer.render(this.scene, this.cameras[this.activeCamera]);
+	        this.renderer.render(this.scene, this.cameras[this.activeCamera].getCamera());
 
 	        if (this.lastUpdate !== new Date().getSeconds()) {
 	            const delta = (Date.now() - this.lastTick) / 1000;
@@ -145,7 +155,7 @@
 	        this.scene.add(player.getActiveTailPart());
 
 	        for (let i = 0; i < this.cameras.length; i++) {
-	            player.getBike().add(this.cameras[i]);
+	            player.getBike().add(this.cameras[i].getCamera());
 	        }
 	    }
 	}
@@ -260,6 +270,14 @@
 
 	        super(camera);
 	    }
+
+	    lookBack() {
+
+	    }
+
+	    lookForward() {
+
+	    }
 	}
 
 	module.exports = Side;
@@ -304,6 +322,14 @@
 
 	        super(camera);
 	    }
+
+	    lookBack() {
+
+	    }
+
+	    lookForward() {
+
+	    }
 	}
 
 	module.exports = FirstPerson;
@@ -319,17 +345,27 @@
 	    constructor(scenePosition) {
 	        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 20000);
 
-	        camera.eulerOrder = "YXZ";
-
-	        camera.position.set(-300, 150, -100);
-
-	        camera.lookAt(scenePosition);
-
-	        camera.rotation.x = -.4;
-	        camera.rotation.y = 4.4;
-	        camera.rotation.z = 0;
-
 	        super(camera);
+
+	        this.camera = camera;
+
+	        this.camera.eulerOrder = "YXZ";
+
+	        this.camera.position.set(-300, 150, -100);
+
+	        this.camera.lookAt(scenePosition);
+
+	        this.lookForward();
+	    }
+
+	    lookBack() {
+	        this.camera.rotation.y = 7.6;
+	    }
+
+	    lookForward() {
+	        this.camera.rotation.x = -0.4;
+	        this.camera.rotation.y = 4.4;
+	        this.camera.rotation.z = 0;
 	    }
 	}
 

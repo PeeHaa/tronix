@@ -19,9 +19,9 @@ class Main {
         this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
         this.cameras = [
-            new ThirdPersonCamera(this.scene.position).getCamera(),
-            new SideCamera(this.scene.position).getCamera(),
-            new FirstPersonCamera(this.scene.position).getCamera()
+            new ThirdPersonCamera(this.scene.position),
+            new SideCamera(this.scene.position),
+            new FirstPersonCamera(this.scene.position)
         ];
 
         this.activeCamera = 0;
@@ -47,12 +47,22 @@ class Main {
                 this.players[0].turnRight();
             }
 
+            if (e.code === 'ArrowDown') {
+                this.cameras[this.activeCamera].lookBack();
+            }
+
             if (e.code === 'KeyC') {
                 if (this.activeCamera === this.cameras.length - 1) {
                     this.activeCamera = 0;
                 } else {
                     this.activeCamera++;
                 }
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'ArrowDown') {
+                this.cameras[this.activeCamera].lookForward();
             }
         });
     }
@@ -66,7 +76,7 @@ class Main {
         this.scene.add(this.players[0].getActiveTailPart());
         this.scene.add(this.players[0].getActiveTailPartOutline());
 
-        this.renderer.render(this.scene, this.cameras[this.activeCamera]);
+        this.renderer.render(this.scene, this.cameras[this.activeCamera].getCamera());
 
         if (this.lastUpdate !== new Date().getSeconds()) {
             const delta = (Date.now() - this.lastTick) / 1000;
@@ -85,7 +95,7 @@ class Main {
         this.scene.add(player.getActiveTailPart());
 
         for (let i = 0; i < this.cameras.length; i++) {
-            player.getBike().add(this.cameras[i]);
+            player.getBike().add(this.cameras[i].getCamera());
         }
     }
 }

@@ -16,6 +16,14 @@ class FirstPerson extends Camera {
 
         super(camera);
     }
+
+    lookBack() {
+
+    }
+
+    lookForward() {
+
+    }
 }
 
 module.exports = FirstPerson;

@@ -10,6 +10,14 @@ class Side extends Camera {
 
         super(camera);
     }
+
+    lookBack() {
+
+    }
+
+    lookForward() {
+
+    }
 }
 
 module.exports = Side;
