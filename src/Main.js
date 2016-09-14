@@ -6,6 +6,10 @@ const ThirdPersonCamera = require('./Camera/ThirdPerson.js');
 
 class Main {
     constructor() {
+        this.lastTick   = Date.now();
+        this.lastUpdate = new Date().getSeconds();
+        this.fps        = 0;
+
         this.scene = new THREE.Scene();
 
         this.scene.add(new SquaresFloor().getMesh());
@@ -63,6 +67,15 @@ class Main {
         this.scene.add(this.players[0].getActiveTailPartOutline());
 
         this.renderer.render(this.scene, this.cameras[this.activeCamera]);
+
+        if (this.lastUpdate !== new Date().getSeconds()) {
+            const delta = (Date.now() - this.lastTick) / 1000;
+
+            document.querySelector('[data-huditem="fps"]').textContent = Math.round(1 / delta);
+        }
+
+        this.lastTick   = Date.now();
+        this.lastUpdate = new Date().getSeconds();
     }
 
     addPlayer(player) {
