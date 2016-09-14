@@ -97,7 +97,9 @@
 
 	        this.players[0].moveForward();
 	        this.scene.remove(this.players[0].getActiveTailPart());
+	        this.scene.remove(this.players[0].getActiveTailPartOutline());
 	        this.scene.add(this.players[0].getActiveTailPart());
+	        this.scene.add(this.players[0].getActiveTailPartOutline());
 
 	        this.renderer.render(this.scene, this.camera);
 	    }
@@ -228,6 +230,10 @@
 	        return this.trail.getActiveTailPart();
 	    }
 
+	    getActiveTailPartOutline() {
+	        return this.trail.getActiveTailPartOutline();
+	    }
+
 	    turnLeft() {
 	        this.bike.rotation.y += Math.PI / 2;
 
@@ -255,9 +261,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const North    = __webpack_require__(8);
-	const East     = __webpack_require__(12);
-	const South    = __webpack_require__(11);
-	const West     = __webpack_require__(10);
 	const TailPart = __webpack_require__(13);
 
 	class Trail {
@@ -278,6 +281,10 @@
 
 	    getActiveTailPart() {
 	        return this.activeTrail.getPart();
+	    }
+
+	    getActiveTailPartOutline() {
+	        return this.activeTrail.getOutline();
 	    }
 
 	    turn(heading) {
@@ -492,7 +499,11 @@
 
 	        this.tail = new THREE.Mesh(geometry, material);
 
+	        //var outlineMaterial1 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+	        this.outline = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
+
 	        this.tail.position.set(x, y, z);
+	        this.outline.position.set(x, y, z);
 
 	        this.direction = 'x';
 	        this.delta = 1;
@@ -505,12 +516,18 @@
 	        return this.tail;
 	    }
 
+	    getOutline() {
+	        return this.outline;
+	    }
+
 	    moveForward() {
 	        this.size += this.heading.getExtraSize();
 
 	        this.tail.scale[this.heading.getDirection()] = this.size;
+	        this.outline.scale[this.heading.getDirection()] = this.size;
 
 	        this.tail.position[this.heading.getDirection()] += this.heading.getDelta();
+	        this.outline.position[this.heading.getDirection()] += this.heading.getDelta();
 	    }
 
 	    getPositionXDelta() {

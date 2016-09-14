@@ -24,6 +24,10 @@ class Player {
         return this.trail.getActiveTailPart();
     }
 
+    getActiveTailPartOutline() {
+        return this.trail.getActiveTailPartOutline();
+    }
+
     turnLeft() {
         this.bike.rotation.y += Math.PI / 2;
 

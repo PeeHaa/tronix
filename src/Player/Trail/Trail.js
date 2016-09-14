@@ -1,7 +1,4 @@
 const North    = require('./../../Heading/North.js');
-const East     = require('./../../Heading/East.js');
-const South    = require('./../../Heading/South.js');
-const West     = require('./../../Heading/West.js');
 const TailPart = require('./Part.js');
 
 class Trail {
@@ -22,6 +19,10 @@ class Trail {
 
     getActiveTailPart() {
         return this.activeTrail.getPart();
+    }
+
+    getActiveTailPartOutline() {
+        return this.activeTrail.getOutline();
     }
 
     turn(heading) {

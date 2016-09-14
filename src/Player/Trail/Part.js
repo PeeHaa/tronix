@@ -13,7 +13,11 @@ class Part {
 
         this.tail = new THREE.Mesh(geometry, material);
 
+        //var outlineMaterial1 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+        this.outline = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
+
         this.tail.position.set(x, y, z);
+        this.outline.position.set(x, y, z);
 
         this.direction = 'x';
         this.delta = 1;
@@ -26,12 +30,18 @@ class Part {
         return this.tail;
     }
 
+    getOutline() {
+        return this.outline;
+    }
+
     moveForward() {
         this.size += this.heading.getExtraSize();
 
         this.tail.scale[this.heading.getDirection()] = this.size;
+        this.outline.scale[this.heading.getDirection()] = this.size;
 
         this.tail.position[this.heading.getDirection()] += this.heading.getDelta();
+        this.outline.position[this.heading.getDirection()] += this.heading.getDelta();
     }
 
     getPositionXDelta() {

@@ -37,7 +37,9 @@ class Main {
 
         this.players[0].moveForward();
         this.scene.remove(this.players[0].getActiveTailPart());
+        this.scene.remove(this.players[0].getActiveTailPartOutline());
         this.scene.add(this.players[0].getActiveTailPart());
+        this.scene.add(this.players[0].getActiveTailPartOutline());
 
         this.renderer.render(this.scene, this.camera);
     }
