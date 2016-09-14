@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const Main   = __webpack_require__(1);
-	const Player = __webpack_require__(8);
+	const Player = __webpack_require__(9);
 
 	const main = new Main();
 
@@ -61,6 +61,7 @@
 	const SquaresFloor = __webpack_require__(2);
 	const SquaresWall  = __webpack_require__(4);
 	const SideCamera   = __webpack_require__(6);
+	const FirstPersonCamera = __webpack_require__(8);
 
 	class Main {
 	    constructor() {
@@ -72,7 +73,7 @@
 	        this.scene.add(new SquaresWall(500, 0, Math.PI * 1.5).getMesh());
 	        this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
-	        this.camera = new SideCamera(this.scene.position).getCamera();
+	        this.camera = new FirstPersonCamera(this.scene.position).getCamera();
 
 	        this.renderer = new THREE.WebGLRenderer();
 
@@ -255,7 +256,34 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Trail = __webpack_require__(9);
+	const Camera = __webpack_require__(7);
+
+	class FirstPerson extends Camera {
+	    constructor(scenePosition) {
+	        const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 20000);
+
+	        camera.eulerOrder = "YXZ";
+
+	        camera.position.set(1, 0, 0);
+
+	        camera.lookAt(scenePosition);
+
+	        camera.rotation.x = 0;
+	        camera.rotation.y = 4.8; // 5
+	        camera.rotation.z = 0;
+
+	        super(camera);
+	    }
+	}
+
+	module.exports = FirstPerson;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const Trail = __webpack_require__(10);
 
 	class Player {
 	    constructor(color) {
@@ -308,11 +336,11 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const North    = __webpack_require__(10);
-	const TailPart = __webpack_require__(15);
+	const North    = __webpack_require__(11);
+	const TailPart = __webpack_require__(16);
 
 	class Trail {
 	    constructor(color, x, y, z) {
@@ -369,10 +397,10 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Heading = __webpack_require__(11);
+	const Heading = __webpack_require__(12);
 
 	class North extends Heading {
 	    constructor() {
@@ -387,13 +415,13 @@
 	    }
 
 	    getLeftHeading() {
-	        const West  = __webpack_require__(12);
+	        const West  = __webpack_require__(13);
 
 	        return new West();
 	    }
 
 	    getRightHeading() {
-	        const East = __webpack_require__(14);
+	        const East = __webpack_require__(15);
 
 	        return new East();
 	    }
@@ -403,7 +431,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	class Heading {
@@ -430,10 +458,10 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Heading = __webpack_require__(11);
+	const Heading = __webpack_require__(12);
 
 	class West extends Heading {
 	    constructor() {
@@ -448,13 +476,13 @@
 	    }
 
 	    getLeftHeading() {
-	        const South = __webpack_require__(13);
+	        const South = __webpack_require__(14);
 
 	        return new South();
 	    }
 
 	    getRightHeading() {
-	        const North = __webpack_require__(10);
+	        const North = __webpack_require__(11);
 
 	        return new North();
 	    }
@@ -464,10 +492,10 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Heading = __webpack_require__(11);
+	const Heading = __webpack_require__(12);
 
 	class South extends Heading {
 	    constructor() {
@@ -482,13 +510,13 @@
 	    }
 
 	    getLeftHeading() {
-	        const East = __webpack_require__(14);
+	        const East = __webpack_require__(15);
 
 	        return new East();
 	    }
 
 	    getRightHeading() {
-	        const West = __webpack_require__(12);
+	        const West = __webpack_require__(13);
 
 	        return new West();
 	    }
@@ -498,10 +526,10 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Heading = __webpack_require__(11);
+	const Heading = __webpack_require__(12);
 
 	class East extends Heading {
 	    constructor() {
@@ -516,13 +544,13 @@
 	    }
 
 	    getLeftHeading() {
-	        const North = __webpack_require__(10);
+	        const North = __webpack_require__(11);
 
 	        return new North();
 	    }
 
 	    getRightHeading() {
-	        const South = __webpack_require__(13);
+	        const South = __webpack_require__(14);
 
 	        return new South();
 	    }
@@ -532,13 +560,13 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const North = __webpack_require__(10);
-	const East  = __webpack_require__(14);
-	const South = __webpack_require__(13);
-	const West  = __webpack_require__(12);
+	const North = __webpack_require__(11);
+	const East  = __webpack_require__(15);
+	const South = __webpack_require__(14);
+	const West  = __webpack_require__(13);
 
 	class Part {
 	    constructor(color, heading, x, y, z) {

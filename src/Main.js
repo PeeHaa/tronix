@@ -1,6 +1,7 @@
 const SquaresFloor = require('./Floor/Squares.js');
 const SquaresWall  = require('./Wall/Squares.js');
 const SideCamera   = require('./Camera/Side.js');
+const FirstPersonCamera = require('./Camera/FirstPerson.js');
 
 class Main {
     constructor() {
@@ -12,7 +13,7 @@ class Main {
         this.scene.add(new SquaresWall(500, 0, Math.PI * 1.5).getMesh());
         this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
-        this.camera = new SideCamera(this.scene.position).getCamera();
+        this.camera = new FirstPersonCamera(this.scene.position).getCamera();
 
         this.renderer = new THREE.WebGLRenderer();
 
