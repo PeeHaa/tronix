@@ -74,7 +74,13 @@
 	        this.scene.add(new SquaresWall(500, 0, Math.PI * 1.5).getMesh());
 	        this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
-	        this.camera = new ThirdPersonCamera(this.scene.position).getCamera();
+	        this.cameras = [
+	            new ThirdPersonCamera(this.scene.position).getCamera(),
+	            new SideCamera(this.scene.position).getCamera(),
+	            new FirstPersonCamera(this.scene.position).getCamera()
+	        ];
+
+	        this.activeCamera = 0;
 
 	        this.renderer = new THREE.WebGLRenderer();
 
@@ -96,6 +102,14 @@
 	            if (e.code === 'ArrowRight') {
 	                this.players[0].turnRight();
 	            }
+
+	            if (e.code === 'KeyC') {
+	                if (this.activeCamera === this.cameras.length - 1) {
+	                    this.activeCamera = 0;
+	                } else {
+	                    this.activeCamera++;
+	                }
+	            }
 	        });
 	    }
 
@@ -108,7 +122,7 @@
 	        this.scene.add(this.players[0].getActiveTailPart());
 	        this.scene.add(this.players[0].getActiveTailPartOutline());
 
-	        this.renderer.render(this.scene, this.camera);
+	        this.renderer.render(this.scene, this.cameras[this.activeCamera]);
 	    }
 
 	    addPlayer(player) {
@@ -117,7 +131,9 @@
 	        this.scene.add(player.getBike());
 	        this.scene.add(player.getActiveTailPart());
 
-	        player.getBike().add(this.camera);
+	        for (let i = 0; i < this.cameras.length; i++) {
+	            player.getBike().add(this.cameras[i]);
+	        }
 	    }
 	}
 
