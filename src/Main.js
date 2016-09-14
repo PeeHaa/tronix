@@ -1,4 +1,5 @@
 const SquaresFloor = require('./Floor/Squares.js');
+const SquaresWall  = require('./Wall/Squares.js');
 const SideCamera   = require('./Camera/Side.js');
 
 class Main {
@@ -6,6 +7,10 @@ class Main {
         this.scene = new THREE.Scene();
 
         this.scene.add(new SquaresFloor().getMesh());
+        this.scene.add(new SquaresWall(0, -500, 0).getMesh());
+        this.scene.add(new SquaresWall(0, 500, 0).getMesh());
+        this.scene.add(new SquaresWall(500, 0, Math.PI / 2).getMesh());
+        this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
         this.camera = new SideCamera(this.scene.position).getCamera();
 
