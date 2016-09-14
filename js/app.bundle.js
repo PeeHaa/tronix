@@ -99,11 +99,11 @@
 	        this.render();
 
 	        document.addEventListener('keydown', (e) => {
-	            if (e.code === 'ArrowLeft') {
+	            if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
 	                this.players[0].turnLeft();
 	            }
 
-	            if (e.code === 'ArrowRight') {
+	            if (e.code === 'ArrowRight' || e.code === 'KeyD') {
 	                this.players[0].turnRight();
 	            }
 
