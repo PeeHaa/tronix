@@ -10,8 +10,7 @@ class Squares extends Wall {
         texture.repeat.set(10, 10);
 
         super(new THREE.MeshBasicMaterial({
-            map: texture,
-            side: THREE.DoubleSide
+            map: texture
         }), x, z, rotationY);
     }
 }

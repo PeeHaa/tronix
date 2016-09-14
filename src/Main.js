@@ -8,8 +8,8 @@ class Main {
 
         this.scene.add(new SquaresFloor().getMesh());
         this.scene.add(new SquaresWall(0, -500, 0).getMesh());
-        this.scene.add(new SquaresWall(0, 500, 0).getMesh());
-        this.scene.add(new SquaresWall(500, 0, Math.PI / 2).getMesh());
+        this.scene.add(new SquaresWall(0, 500, Math.PI).getMesh());
+        this.scene.add(new SquaresWall(500, 0, Math.PI * 1.5).getMesh());
         this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
         this.camera = new SideCamera(this.scene.position).getCamera();

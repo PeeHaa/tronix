@@ -68,8 +68,8 @@
 
 	        this.scene.add(new SquaresFloor().getMesh());
 	        this.scene.add(new SquaresWall(0, -500, 0).getMesh());
-	        this.scene.add(new SquaresWall(0, 500, 0).getMesh());
-	        this.scene.add(new SquaresWall(500, 0, Math.PI / 2).getMesh());
+	        this.scene.add(new SquaresWall(0, 500, Math.PI).getMesh());
+	        this.scene.add(new SquaresWall(500, 0, Math.PI * 1.5).getMesh());
 	        this.scene.add(new SquaresWall(-500, 0, Math.PI / 2).getMesh());
 
 	        this.camera = new SideCamera(this.scene.position).getCamera();
@@ -183,8 +183,7 @@
 	        texture.repeat.set(10, 10);
 
 	        super(new THREE.MeshBasicMaterial({
-	            map: texture,
-	            side: THREE.DoubleSide
+	            map: texture
 	        }), x, z, rotationY);
 	    }
 	}
@@ -199,29 +198,11 @@
 	class Wall {
 	    constructor(floorMaterial, x, z, rotationY) {
 	        this.wall = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000, 10, 10), floorMaterial);
-	console.log({
-	    x: x, z: z
-	});
+
 	        this.wall.position.x = x;
 	        this.wall.position.y = 500;
 	        this.wall.position.z = z;
 	        this.wall.rotation.y = rotationY;
-
-
-
-	        /*
-	        this.wall.position.x = 500;
-	        this.wall.position.y = 500;
-	        this.wall.position.z = 0;
-	        */
-
-	        /*
-	        this.wall.position.x = -500;
-	        this.wall.position.y = 500;
-	        this.wall.position.z = 0;
-
-	        this.wall.rotation.y = Math.PI / 2;
-	        */
 	    }
 
 	    getMesh() {
