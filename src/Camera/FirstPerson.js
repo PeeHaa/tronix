@@ -11,7 +11,7 @@ class FirstPerson extends Camera {
         camera.lookAt(scenePosition);
 
         camera.rotation.x = 0;
-        camera.rotation.y = 4.8; // 5
+        camera.rotation.y = 4.7;
         camera.rotation.z = 0;
 
         super(camera);
